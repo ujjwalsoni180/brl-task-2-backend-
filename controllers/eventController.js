@@ -24,9 +24,10 @@ exports.getEventById = async (req, res) => {
 // Create Event
 exports.createEvent = async (req, res) => {
   try {
-    const event = await Event.create({ ...req.body, createdBy: req.user.id });
+    const event = await Event.create({ ...req.body, user: req.user.id || req.user._id });
     res.status(201).json({ success: true, data: event });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
